@@ -24,3 +24,4 @@ typing_extensions
 Werkzeug==2.2.2
 xgboost==0.90
 requests==2.31.0
+pandas

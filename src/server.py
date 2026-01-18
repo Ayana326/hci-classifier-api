@@ -1,6 +1,8 @@
 from flask import Flask, jsonify, request
 from flask_cors import CORS, cross_origin
 import logging
+import pandas as pd
+import requests
 
 from src.utils import predict
 
@@ -17,7 +19,6 @@ app.config["CORS_HEADERS"] = "Content-Type"
 @cross_origin()
 def classify():
     request_data = request.get_json()
-    logger.info(f"Request data keys: {list(request_data.keys()) if request_data else 'None'}")
     result = predict(request_data)
     return jsonify(result)
 
@@ -53,6 +54,15 @@ def root():
         }
     })
 
+@app.route("/test-classifier", methods=["GET"])
+@cross_origin()
+def test_classifier():
+    df = pd.read_csv("Combined.csv").head(5)
+    results = []
+    for text in df["content"]:
+        result = predict({"text": text})
+        results.append(result)
+    return jsonify(results)
 
 if __name__ == "__main__":
     app.run(host="0.0.0.0", port=5000)
