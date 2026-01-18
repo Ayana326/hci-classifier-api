@@ -1,14 +1,10 @@
 from flask import Flask, jsonify, request
 from flask_cors import CORS, cross_origin
-import logging
 import pandas as pd
-import requests
 
 from src.utils import predict
 
 app = Flask(__name__)
-logging.basicConfig(level=logging.INFO)
-logger = logging.getLogger(__name__)
 
 
 cors = CORS(app)
